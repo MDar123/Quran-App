@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SearchResult } from '../models/searchmodel';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,20 @@ export class SearchService {
 
   constructor(private http : HttpClient) { }
   getresults(keyword:string):Observable<SearchResult>{
-    const url = `http://api.alquran.cloud/v1/search/${keyword}/all/en`;
-    return this.http.get<any>(url).pipe(
-      map(res => res.data)
-    );
+    const cachedResult = localStorage.getItem(`search-${keyword}`);
+    if (cachedResult) {
+      return of(JSON.parse(cachedResult));
+    } else {
+      const params = new HttpParams().set('query', keyword);
+      const url = `http://api.alquran.cloud/v1/search/${keyword}/all/en`;
+
+      return this.http.get<any>(url, { params }).pipe(
+        map(res => {
+          const data = res.data;
+          localStorage.setItem(`search-${keyword}`, JSON.stringify(data));
+          return data;
+        })
+      );
+    }
   }
 }

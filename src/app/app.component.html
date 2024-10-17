@@ -3,8 +3,10 @@
 <div class="p-4">
     <h1 class="text-4xl text-white  mb-4">Search The Quran</h1>
      <div class="search-bar flex-row text-center">
-        <input type="text" [(ngModel)]="keyword" placeholder="Enter Keywords from Quran" class="rounded mr-2 text-center w-1/2">
-        <button class="bg-blue-300 rounded px-3" (click)="search(keyword)">Search</button>
+        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-fit py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mx-4 text-wrap overflow-hidden" id="inline-full-name" type="text" placeholder="Enter Keywords from Quran" [(ngModel)]="keyword">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  (click)="search()">
+            Search
+          </button>
      </div>
      
 </div>
