@@ -18,21 +18,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AppComponent implements OnInit{
   constructor(private service : SearchService, private route: ActivatedRoute,private router : Router){}
   ngOnInit(): void {
-    this.route.queryParams.subscribe( (params)=>{
-      if(params['query']){
-        this.keyword = params['query'];
-        this.service.getresults(this.keyword).subscribe( (data)=>{
-          this.results = data;
-          console.log(data);
-        } )
-      }
-
-    } )
+this.refreshPage();
   }
   results : SearchResult | undefined;
   keyword = '';
   loading : boolean = false;
   error : string | undefined;
+  data : SearchResult | undefined;
   search(){
   this.results = undefined;
   this.error = undefined
@@ -51,6 +43,18 @@ export class AppComponent implements OnInit{
           this.error = error.error.data;
           this.loading = false;
        } )
-
+      
   }
+refreshPage(){
+  this.route.queryParams.subscribe( (params)=>{
+    if(params['query']){
+      this.keyword = params['query'];
+      this.service.getresults(this.keyword).subscribe( (data)=>{
+        this.results = data;
+        console.log(data);
+      } )
+    }
+
+  } )
+}
 }

@@ -12,13 +12,8 @@ export class SearchService {
   getresults(keyword:string):Observable<SearchResult>{
       const params = new HttpParams().set('query', keyword);
       const url = `http://api.alquran.cloud/v1/search/${keyword}/all/en`;
-
       return this.http.get<any>(url, { params }).pipe(
-        map(res => {
-          const data = res.data;
-          localStorage.setItem(`search-${keyword}`, JSON.stringify(data));
-          return data;
-        })
+        map(res => res.data)
       );
     }
   }
