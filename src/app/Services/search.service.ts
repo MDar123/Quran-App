@@ -10,10 +10,6 @@ export class SearchService {
 
   constructor(private http : HttpClient) { }
   getresults(keyword:string):Observable<SearchResult>{
-    const cachedResult = localStorage.getItem(`search-${keyword}`);
-    if (cachedResult) {
-      return of(JSON.parse(cachedResult));
-    } else {
       const params = new HttpParams().set('query', keyword);
       const url = `http://api.alquran.cloud/v1/search/${keyword}/all/en`;
 
@@ -26,4 +22,3 @@ export class SearchService {
       );
     }
   }
-}
